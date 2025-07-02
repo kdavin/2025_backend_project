@@ -1,0 +1,16 @@
+logs
+*.log
+*.log*
+
+node_modules/
+.env
+.env.production
+.env.development
+.vscode
+dist
+*.jpeg
+*.png
+*.txt
+**/public/uploads/**
+**/uploads/**
++*.db
