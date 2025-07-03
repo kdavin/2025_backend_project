@@ -22,10 +22,11 @@ app.use(`/downloads`, express.static(path.join(__dirname, uploadDir)));
 
 //4.라우터 추가
 const userRouter = require("./routes/users");
+const authRouter = require("./routes/auth");
 
 //4.1라우터 사용
 app.use("/users", userRouter);
-
+app.use("/auth", authRouter);
 //5.에러처리 구문
 // app.use((req, res) => {
 //   res.status(404).json({

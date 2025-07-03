@@ -2,11 +2,12 @@ const models = require("../models");
 
 //유저 추가
 const createUser = async (req, res) => {
-  const { email, password, name } = req.body;
+  const { email, password, name, role } = req.body;
   const user = await models.User.create({
     name,
     email,
     password,
+    role,
   });
   res.status(201).json({ message: "ok", data: user });
 };

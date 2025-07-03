@@ -15,6 +15,7 @@ const registerSchema = Joi.object({
     "string.max": "이름은 최대 10자리까지입니다.",
     "string.empty": "이름은 필수 입력 항목입니다.",
   }),
+  role: Joi.string().valid("user", "company").optional(),
 });
 
 module.exports = {
