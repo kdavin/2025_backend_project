@@ -9,9 +9,9 @@ const models = require("./models");
 //2.포트 번호
 const PORT = 3000;
 //서버에 요청
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello World");
+// });
 
 //3.미들웨어 설정
 app.use(logging); //로깅 미들웨어
@@ -23,10 +23,14 @@ app.use(`/downloads`, express.static(path.join(__dirname, uploadDir)));
 //4.라우터 추가
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
+const productRouter = require("./routes/products");
+const storeRouter = require("./routes/stores");
 
 //4.1라우터 사용
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
+app.use("/products", productRouter);
+app.use("/stores", storeRouter);
 //5.에러처리 구문
 // app.use((req, res) => {
 //   res.status(404).json({

@@ -14,15 +14,20 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: true,
       },
+      amount: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue:0,
+      },
     },
     {
       tableName: "products",
     }
   );
   Product.associate = function (models) {
-    Product.belongsTo(models.Company, {
-      foreignKey: "companyId",
-      as: "company",
+    Product.belongsTo(models.Store, {
+      foreignKey: "storeId",
+      as: "store",
     });
   };
   return Product;

@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       role: {
-        type: DataTypes.ENUM("admin", "company", "user"),
+        type: DataTypes.ENUM("admin", "store", "user"),
         defaultValue: "user",
       },
     },
@@ -27,9 +27,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   User.associate = function (models) {
-    User.belongsTo(models.Company, {
-      foreignKey: "companyId",
-      as: "company",
+    User.hasOne(models.Store, {
+      foreignKey: "userId",
+      as: "store",
     });
   };
   return User;
