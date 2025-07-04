@@ -1,0 +1,268 @@
+{
+  "openapi": "3.0.0",
+  "info":
+    {
+      "title": "Store Product API",
+      "version": "1.0.0",
+      "description": "유저, 스토어, 상품 관리 REST API",
+    },
+  "servers": [{ "url": "http://localhost:3000" }],
+  "paths":
+    {
+      "/users":
+        {
+          "get":
+            {
+              "summary": "유저 전체 조회",
+              "responses": { "200": { "description": "유저 목록 반환" } },
+            },
+          "post":
+            {
+              "summary": "유저 생성",
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        { "schema": { "$ref": "#/components/schemas/User" } },
+                    },
+                },
+              "responses": { "201": { "description": "생성된 유저 반환" } },
+            },
+        },
+      "/users/{id}":
+        {
+          "put":
+            {
+              "summary": "유저 정보 수정",
+              "parameters":
+                [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": { "type": "integer" },
+                  },
+                ],
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        { "schema": { "$ref": "#/components/schemas/User" } },
+                    },
+                },
+              "responses": { "200": { "description": "수정된 유저 반환" } },
+            },
+          "delete":
+            {
+              "summary": "유저 삭제",
+              "parameters":
+                [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": { "type": "integer" },
+                  },
+                ],
+              "responses": { "204": { "description": "삭제 성공" } },
+            },
+        },
+      "/auth/login":
+        {
+          "post":
+            {
+              "summary": "로그인",
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            {
+                              "type": "object",
+                              "properties":
+                                {
+                                  "email": { "type": "string" },
+                                  "password": { "type": "string" },
+                                },
+                            },
+                        },
+                    },
+                },
+              "responses": { "200": { "description": "JWT 토큰 반환" } },
+            },
+        },
+      "/products":
+        {
+          "get":
+            {
+              "summary": "상품 전체 조회",
+              "responses": { "200": { "description": "상품 목록 반환" } },
+            },
+          "post":
+            {
+              "summary": "상품 등록",
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema": { "$ref": "#/components/schemas/Product" },
+                        },
+                    },
+                },
+              "responses": { "201": { "description": "생성된 상품 반환" } },
+            },
+        },
+      "/products/{id}":
+        {
+          "put":
+            {
+              "summary": "상품 수정",
+              "parameters":
+                [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": { "type": "integer" },
+                  },
+                ],
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema": { "$ref": "#/components/schemas/Product" },
+                        },
+                    },
+                },
+              "responses": { "200": { "description": "수정된 상품 반환" } },
+            },
+          "delete":
+            {
+              "summary": "상품 삭제",
+              "parameters":
+                [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": { "type": "integer" },
+                  },
+                ],
+              "responses": { "204": { "description": "삭제 성공" } },
+            },
+        },
+      "/stores":
+        {
+          "get":
+            {
+              "summary": "스토어 전체 조회",
+              "responses": { "200": { "description": "스토어 목록 반환" } },
+            },
+          "post":
+            {
+              "summary": "스토어 생성",
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        { "schema": { "$ref": "#/components/schemas/Store" } },
+                    },
+                },
+              "responses": { "201": { "description": "생성된 스토어 반환" } },
+            },
+        },
+      "/stores/{id}":
+        {
+          "put":
+            {
+              "summary": "스토어 정보 수정",
+              "parameters":
+                [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": { "type": "integer" },
+                  },
+                ],
+              "requestBody":
+                {
+                  "required": true,
+                  "content":
+                    {
+                      "application/json":
+                        { "schema": { "$ref": "#/components/schemas/Store" } },
+                    },
+                },
+              "responses": { "200": { "description": "수정된 스토어 반환" } },
+            },
+          "delete":
+            {
+              "summary": "스토어 삭제",
+              "parameters":
+                [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": { "type": "integer" },
+                  },
+                ],
+              "responses": { "204": { "description": "삭제 성공" } },
+            },
+        },
+    },
+  "components":
+    {
+      "schemas":
+        {
+          "User":
+            {
+              "type": "object",
+              "properties":
+                {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "password": { "type": "string" },
+                  "role":
+                    { "type": "string", "enum": ["admin", "store", "user"] },
+                },
+            },
+          "Product":
+            {
+              "type": "object",
+              "properties":
+                {
+                  "name": { "type": "string" },
+                  "price": { "type": "number" },
+                  "description": { "type": "string" },
+                },
+            },
+          "Store":
+            {
+              "type": "object",
+              "properties":
+                {
+                  "s_name": { "type": "string" },
+                  "s_info": { "type": "string" },
+                  "userId": { "type": "integer" },
+                },
+            },
+        },
+    },
+}

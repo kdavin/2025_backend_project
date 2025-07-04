@@ -1,0 +1,316 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Store Product API",
+    "version": "1.0.0",
+    "description": "유저, 스토어, 상품 관리 REST API"
+  },
+  "servers": [{ "url": "http://localhost:3000" }],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "유저 전체 조회",
+        "responses": { "200": { "description": "유저 목록 반환" } }
+      },
+      "post": {
+        "summary": "유저 생성",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/User" },
+              "example": {
+                "name": "김철수",
+                "email": "chulsoo@sample.com",
+                "password": "myPassword!456",
+                "role": "user"
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "생성된 유저 반환" } }
+      }
+    },
+    "/users/{id}": {
+      "put": {
+        "summary": "유저 정보 수정",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/User" },
+              "example": {
+                "name": "김철수",
+                "email": "chulsoo@sample.com",
+                "password": "newPassword!789",
+                "role": "user"
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "수정된 유저 반환" } }
+      },
+      "delete": {
+        "summary": "유저 삭제",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": { "204": { "description": "삭제 성공" } }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "회원가입",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/User" },
+              "example": {
+                "name": "홍길동",
+                "email": "hong@sample.com",
+                "password": "securePassword123!",
+                "role": "store"
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "회원가입 성공" } }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "로그인",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" },
+                  "role": {
+                    "type": "string",
+                    "enum": ["admin", "store", "user"]
+                  }
+                }
+              },
+              "example": {
+                "email": "hong@sample.com",
+                "password": "securePassword123!",
+                "role": "store"
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "JWT 토큰 반환" } }
+      }
+    },
+    "/products": {
+      "get": {
+        "summary": "상품 전체 조회",
+        "responses": { "200": { "description": "상품 목록 반환" } }
+      },
+      "post": {
+        "summary": "상품 등록",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Product" },
+              "example": {
+                "p_name": "아메리카노",
+                "price": 3500,
+                "p_info": "진한 에스프레소에 물을 더한 커피",
+                "amount": 100
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "생성된 상품 반환" } }
+      }
+    },
+    "/products/{id}": {
+      "put": {
+        "summary": "상품 수정",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Product" },
+              "example": {
+                "p_name": "카페라떼",
+                "price": 4000,
+                "p_info": "우유가 들어간 부드러운 커피",
+                "amount": 50
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "수정된 상품 반환" } }
+      },
+      "delete": {
+        "summary": "상품 삭제",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": { "204": { "description": "삭제 성공" } }
+      }
+    },
+    "/products/search/{keyword}": {
+      "get": {
+        "summary": "상품 이름으로 검색",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "검색된 상품 목록 반환" } }
+      }
+    },
+    "/stores": {
+      "get": {
+        "summary": "스토어 전체 조회",
+        "responses": { "200": { "description": "스토어 목록 반환" } }
+      },
+      "post": {
+        "summary": "스토어 생성",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Store" },
+              "example": {
+                "s_name": "카페봄날",
+                "s_info": "분위기 좋은 동네 카페"
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "생성된 스토어 반환" } }
+      }
+    },
+    "/stores/{id}": {
+      "put": {
+        "summary": "스토어 정보 수정",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Store" },
+              "example": {
+                "s_name": "카페봄날",
+                "s_info": "분위기 좋은 동네 카페 - 리뉴얼",
+                "userId": 1
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "수정된 스토어 반환" } }
+      },
+      "delete": {
+        "summary": "스토어 삭제",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": { "204": { "description": "삭제 성공" } }
+      }
+    },
+    "/stores/search/{keyword}": {
+      "get": {
+        "summary": "스토어 이름으로 검색",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "검색된 스토어 목록 반환" } }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "password": { "type": "string" },
+          "role": { "type": "string", "enum": ["admin", "store", "user"] }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "p_name": { "type": "string" },
+          "price": { "type": "integer" },
+          "p_info": { "type": "string" },
+          "amount": { "type": "integer" },
+          "storeId": { "type": "integer" }
+        }
+      },
+      "Store": {
+        "type": "object",
+        "properties": {
+          "s_name": { "type": "string" },
+          "s_info": { "type": "string" },
+          "userId": { "type": "integer" }
+        }
+      }
+    }
+  },
+  "security": [{ "bearerAuth": [] }]
+}

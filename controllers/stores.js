@@ -1,15 +1,15 @@
 //모듈 추가
 const models = require("../models");
-
+const { Op } = require("sequelize");
 //스토어 추가(only store)
 const createStore = async (req, res) => {
   const { s_name, s_info } = req.body;
-  console.log(s_name)
-  console.log(req.user.id)
+  console.log(s_name);
+  console.log(req.user.id);
   const store = await models.Store.create({
-    s_name:s_name,
-    s_info:s_info,
-    userId:req.user.id
+    s_name: s_name,
+    s_info: s_info,
+    userId: req.user.id,
   });
   res
     .status(201)
@@ -30,9 +30,8 @@ const updateStore = async (req, res) => {
   const id = req.params.id;
   const store = await models.User.findByPk(id);
   if (store) {
-    if (p_name) store.p_name = p_name;
-    if (price) store.price = price;
-    if (p_info) store.p_info = p_info;
+    if (s_name) store.s_name = s_name;
+    if (s_info) store.s_info = s_info;
     await store.save();
     res
       .status(200)
@@ -54,15 +53,24 @@ const deleteStore = async (req, res) => {
 };
 //스토어 이름 검색
 //스토어 검색에 사용
-const findStoreByName = async () => {
-  const store = await models.Store.findAll({
+const findStoreByName = async (req, res) => {
+  const keyword = req.params.keyword;
+  console.log("검색 키워드:", keyword);
+  console.log("조건:", { [Op.like]: `%${keyword}%` });
+  const stores = await models.Store.findAll({
     where: {
-      p_name: {
+      s_name: {
         [Op.like]: `%${keyword}%`,
       },
     },
   });
-  return store;
+  //return store;
+  console.log(`스토어${stores}`);
+  if (stores) {
+    res.status(200).json({ message: "스토어 검색 결과 입니다.", data: stores });
+  } else {
+    res.status(500).json({ message: "스토어가 없습니다.", error });
+  }
 };
 module.exports = {
   createStore,

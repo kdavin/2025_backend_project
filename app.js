@@ -5,6 +5,8 @@ const app = express();
 const path = require("path");
 const { logger, logging } = require("./middlewares/logger");
 const models = require("./models");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 //2.포트 번호
 const PORT = 3000;
@@ -31,6 +33,7 @@ app.use("/users", userRouter);
 app.use("/auth", authRouter);
 app.use("/products", productRouter);
 app.use("/stores", storeRouter);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //5.에러처리 구문
 // app.use((req, res) => {
 //   res.status(404).json({
